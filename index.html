@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a12">
+  <meta name="description" content="P002 - Motor de busca gamer escuro">
+  <title>P002</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>P</text></svg>">
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <div class="grid-overlay"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-area">
+      <a href="/" class="logo" id="logo-link">
+        <span class="logo-p">P</span><span class="logo-num">002</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="#" class="nav-link active" data-mode="search" data-i18n="nav_search">Busca</a>
+      <a href="#" class="nav-link" data-mode="history" data-i18n="nav_history">Histórico</a>
+      <a href="#" class="nav-link" data-mode="proxy" data-i18n="nav_proxy">Proxy</a>
+      <a href="#" class="nav-link" data-mode="about" data-i18n="nav_about">Sobre</a>
+    </nav>
+    <div class="lang-switch">
+      <button id="lang-pt" class="lang-btn active">PT</button>
+      <button id="lang-en" class="lang-btn">EN</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- SEARCH VIEW -->
+    <section id="search-view" class="view active">
+      <div class="hero" id="hero">
+        <div class="logo-big">
+          <span class="logo-p">P</span><span class="logo-num">002</span>
+        </div>
+        <p class="tagline" data-i18n="tagline">Motor de busca gamer • Escuro • Rápido</p>
+      </div>
+
+      <form id="search-form" class="search-form" autocomplete="off">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" id="search-input" data-i18n-placeholder="search_placeholder" placeholder="Pesquisar no P002..." autofocus spellcheck="false">
+          <button type="button" id="clear-btn" class="clear-btn" title="Limpar" style="display:none;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+          <div class="divider"></div>
+          <button type="submit" class="search-btn" title="Pesquisar">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="search-options">
+          <label class="option">
+            <input type="radio" name="engine" value="google" checked>
+            <span>Google</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="engine" value="duck">
+            <span>DuckDuckGo</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="engine" value="bing">
+            <span>Bing</span>
+          </label>
+        </div>
+
+        <div class="btn-row">
+          <button type="submit" class="btn-primary" data-i18n="btn_search">Pesquisar no P002</button>
+          <button type="button" id="lucky-btn" class="btn-secondary" data-i18n="btn_lucky">Estou com sorte</button>
+        </div>
+      </form>
+
+      <div class="quick-links">
+        <a href="https://www.youtube.com" target="_blank" rel="noopener" class="quick-link"><span class="ql-icon">▶</span> YouTube</a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="quick-link"><span class="ql-icon">⌥</span> GitHub</a>
+        <a href="https://www.reddit.com" target="_blank" rel="noopener" class="quick-link"><span class="ql-icon">◈</span> Reddit</a>
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="quick-link"><span class="ql-icon">𝕏</span> X</a>
+      </div>
+
+      <!-- Results area (iframe) -->
+      <div id="results-area" class="results-area" style="display:none;">
+        <div class="results-header">
+          <button id="back-to-home" class="back-btn" data-i18n="back">← Voltar</button>
+          <span id="results-query"></span>
+        </div>
+        <iframe id="results-frame" class="results-frame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+      </div>
+    </section>
+
+    <!-- HISTORY VIEW -->
+    <section id="history-view" class="view">
+      <div class="history-container">
+        <h2 class="section-title" data-i18n="history_title">Histórico de Pesquisas</h2>
+        <p class="section-desc" data-i18n="history_desc">Suas pesquisas ficam salvas por 7 dias</p>
+        
+        <div id="history-list" class="history-list"></div>
+        
+        <button id="clear-history" class="btn-secondary" data-i18n="clear_history">Limpar histórico</button>
+      </div>
+    </section>
+
+    <!-- PROXY VIEW -->
+    <section id="proxy-view" class="view">
+      <div class="proxy-container">
+        <h2 class="section-title" data-i18n="proxy_title">Proxy P002</h2>
+        <p class="section-desc" data-i18n="proxy_desc">Digite a URL que deseja acessar</p>
+        
+        <form id="proxy-form" class="proxy-form">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            <input type="url" id="proxy-input" data-i18n-placeholder="proxy_placeholder" placeholder="https://exemplo.com" spellcheck="false">
+            <button type="submit" class="search-btn">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <div class="proxy-presets">
+          <button class="preset-btn" data-url="https://www.google.com">Google</button>
+          <button class="preset-btn" data-url="https://www.youtube.com">YouTube</button>
+          <button class="preset-btn" data-url="https://www.reddit.com">Reddit</button>
+          <button class="preset-btn" data-url="https://www.wikipedia.org">Wikipedia</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT VIEW -->
+    <section id="about-view" class="view">
+      <div class="about-container">
+        <h2 class="section-title" data-i18n="about_title">Sobre o P002</h2>
+        <div class="about-card">
+          <p data-i18n="about_p1">P002 é um motor de busca com interface gamer escura, inspirado no Google.</p>
+          <p data-i18n="about_p2">Histórico de pesquisas salvo por 7 dias + suporte a Português e Inglês.</p>
+          <ul>
+            <li data-i18n="about_li1">Busca via Google, DuckDuckGo e Bing</li>
+            <li data-i18n="about_li2">Histórico automático (7 dias)</li>
+            <li data-i18n="about_li3">Troca de idioma PT / EN</li>
+            <li data-i18n="about_li4">Modo Proxy</li>
+            <li data-i18n="about_li5">Design responsivo (iPhone + Desktop)</li>
+          </ul>
+          <p class="version">P002 v2.0 • GitHub Pages</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <span>P002</span> • <span data-i18n="footer_text">Motor de busca gamer</span>
+    </div>
+    <div class="footer-right">
+      <a href="#" id="theme-toggle" data-i18n="effects">Efeitos</a>
+      <span class="sep">•</span>
+      <span id="clock"></span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
